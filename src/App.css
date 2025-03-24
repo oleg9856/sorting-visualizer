@@ -1,38 +1,198 @@
+/* Імпорт піксельного шрифту для ретро-естетики */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+body {
+  margin: 0;
+  background: radial-gradient(circle, #2e004e, #000);
+  font-family: 'Press Start 2P', monospace;
+  color: #00ffea;
+  overflow: hidden;
+}
+
+/* Основний контейнер */
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+/* Заголовок */
+.app-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.app-header h1 {
+  font-size: 3rem;
+  margin-bottom: 10px;
+  text-shadow: 3px 3px 0px #ff00ff, 6px 6px 0px #00ffff;
+  color: #00ffea;
+}
+
+/* Панель керування */
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 20px;
+  width: 100%;
+  max-width: 900px;
+  box-sizing: border-box;
+}
+
+.control-group {
+  display: flex;
+  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
-.App-link {
-  color: #61dafb;
+.control-group label {
+  font-size: 0.8rem;
+  letter-spacing: 1px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Повзунки */
+.controls input[type="range"] {
+  cursor: pointer;
+  width: 250px;
+  -webkit-appearance: none;
+  background: transparent;
+}
+
+.controls input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  background: #00ffea;
+  border: 2px solid #000;
+  box-shadow: 1px 1px 0px #ff00ff;
+  cursor: pointer;
+}
+
+/* Селект */
+.controls select {
+  padding: 4px 8px;
+  font-size: 0.8rem;
+  border: none;
+  border-radius: 2px;
+  background-color: #330033;
+  color: #00ffea;
+}
+
+/* Кнопки */
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.buttons button,
+.controls button {
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  border: 2px solid #00ffea;
+  background-color: #000;
+  color: #00ffea;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 2px 2px 0px #ff00ff;
+}
+
+.buttons button:active,
+.controls button:active {
+  transform: translate(2px, 2px);
+  box-shadow: none;
+}
+
+.buttons button:hover,
+.controls button:hover {
+  background-color: #00ffea;
+  color: #000;
+}
+
+/* Контейнер для графіку зі встановленою висотою */
+.blocks-container {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  width: 100%;
+  height: calc(100vh - 300px);
+  background: #000;
+  border: 4px solid #00ffea;
+  border-radius: 4px;
+  padding: 10px;
+  margin: 0;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Контейнер кожного стовпчика */
+.block-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  transition: transform 0.1s steps(4);
+  padding: 0 2px; /* Невеликий відступ для уникнення накладання тексту */
+}
+
+/* Стовпчики у піксель-арт стилі */
+.block {
+  width: 100%;
+  background: #0066ff;
+  border: 2px solid #00ffea;
+  image-rendering: pixelated;
+  transition: height 0.1s steps(4), background 0.1s linear;
+}
+
+/* Текст під стовпчиком */
+.block-label {
+  font-size: 0.6rem;
+  margin-top: 2px;
+  color: #00ffea;
+  text-shadow: 1px 1px 0px #000;
+  white-space: nowrap;
+  /* Забезпечуємо додатковий простір для повороту */
+  display: inline-block;
+  min-height: 18px;
+}
+
+/* Активний стан для порівнюваних елементів */
+.block.swapping {
+  background: #ffcc00;
+  box-shadow: 0 0 6px #ff0000;
+}
+
+/* Фініш: стовпчики підсвічуються зеленим з анімацією пульсації */
+.blocks-container.finished .block {
+  background: #33cc33;
+  box-shadow: 0 0 4px #33cc33;
+  animation: pulse 0.5s ease-in-out;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+/* Ретро піксельний глітч-ефект */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left:0;
+  width: 100%;
+  height: 100%;
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIW2NkYGD4DwABBAEAHCUOGwAAAABJRU5ErkJggg==');
+  opacity: 0.03;
+  pointer-events: none;
 }
